@@ -7,6 +7,7 @@ La aplicación contará con recetas variadas, económicas, rápidas y especiales
 La metodología empleada consistirá en realizar un análisis comparativo de tres aplicaciones nutricionales existentes (Nutrium, MyFitnessPal y FatSecret), evaluando sus funcionalidades principales, experiencia de usuario, modelo de negocio, puntos fuertes, debilidades y características innovadoras. Esta revisión permitirá obtener información clave para el diseño y desarrollo de NutriLife, tomando como referencia las mejores prácticas observadas en las aplicaciones estudiadas.
 
 # Nutrium
+<imagen ancho="112" altura="200" alternativa="imagen" fuente="c:\Users\Kenia Santana\Videos\Nueva carpeta (3)\Imagen1.png"/>
 * Funcionalidad:
 Nutrium es una aplicación pensada principalmente para los profesionales de la nutrición. Permite crear planes de alimentación personalizados, registrar el avance de los pacientes y comunicarse directamente con ellos. También cuenta con una base de datos de alimentos, control de calorías, seguimiento del peso y análisis detallado de la dieta.
 * Experiencia de usuario:
@@ -20,6 +21,7 @@ Puntos fuertes y débiles:
 La integración entre el nutricionista y el usuario en una misma plataforma facilita el seguimiento del progreso y la personalización de la dieta en tiempo real.
 
 # MyFitnessPal
+<imagen ancho="112" altura="200" alternativa="imagen" fuente="c:\Users\Kenia Santana\Videos\Nueva carpeta (3)\Imagen2.png"/>
 * Funcionalidad:
 Esta aplicación es una de las más populares para controlar la alimentación. Tiene una base de datos de alimentos, permite registrar comidas escaneando códigos de barras, contar calorías y sincronizarse con relojes o apps de ejercicio. Además, ayuda a establecer metas de peso, nutrición y actividad física.
 Experiencia de usuario:
@@ -33,6 +35,7 @@ Puntos fuertes y débiles:
 Permite escanear códigos de barras para registrar alimentos fácilmente y se conecta con dispositivos inteligentes, lo que hace más práctico el control diario.
 
 # Fitia
+<imagen ancho="112" altura="200" alternativa="imagen" fuente="c:\Users\Kenia Santana\Videos\Nueva carpeta (3)\Imagen3.png"/>
 * Funcionalidad:
 Fitia es una aplicación que ayuda a las personas a mejorar su alimentación por medio de planes personalizados. Permite registrar los alimentos que se consumen, contar calorías y crear menús diarios según el objetivo del usuario, ya sea bajar de peso, mantenerlo o aumentar masa muscular. También incluye recetas saludables y la opción de cambiar alimentos dentro del plan sin que se altere el equilibrio nutricional.
 * Experiencia de usuario:
