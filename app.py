@@ -23,7 +23,7 @@ def horario():
     return render_template("horarioC.html")
 
 @app.route("/recetas")
-def recatas():
+def recetas():
     return render_template("recetas.html")
 
 @app.route("/acerca")
