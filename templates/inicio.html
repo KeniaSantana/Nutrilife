@@ -7,35 +7,27 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Registro</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Iniciar Sesion</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Inicio</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true">Dieta</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true">Horario y Consumo de agua</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true">Recetas SAludables</a>
-        </li>
-        </ul>
-    </div>
-    </div>
-</nav>
+<div class="overlay">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="{{ url_for('lobby') }}">Sitio Web</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+
+                        <li class="nav-item"><a href="{{ url_for('registro') }}" class="nav-link">Registro</a></li>
+                            <li class="nav-item"><a href="{{ url_for('sesion') }}" class="nav-link">Iniciar sesión</a></li>
+                        <li class="nav-item"><a href="{{ url_for('inicio') }}" class="nav-link">Inicio</a></li>
+                        <li class="nav-item"><a href="{{ url_for('dieta') }}" class="nav-link">Dieta</a></li>
+                        <li class="nav-item"><a href="{{ url_for('horarioC') }}" class="nav-link">Horario y Consumo de Agua</a></li>
+                        <li class="nav-item"><a href="{{ url_for('recetas') }}" class="nav-link">Recetas Saludables</a></li>
+                        <li class="nav-item"><a href="{{ url_for('acerca') }}" class="nav-link">Acerca de</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
 </body>
 </html>
