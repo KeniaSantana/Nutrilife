@@ -35,7 +35,7 @@ Puntos fuertes y débiles:
 Permite escanear códigos de barras para registrar alimentos fácilmente y se conecta con dispositivos inteligentes, lo que hace más práctico el control diario.
 
 # Fitia
-![ MyFitnessPal](![alt text](image-2.png))
+[alt text](image-2.png)
 * Funcionalidad:
 Fitia es una aplicación que ayuda a las personas a mejorar su alimentación por medio de planes personalizados. Permite registrar los alimentos que se consumen, contar calorías y crear menús diarios según el objetivo del usuario, ya sea bajar de peso, mantenerlo o aumentar masa muscular. También incluye recetas saludables y la opción de cambiar alimentos dentro del plan sin que se altere el equilibrio nutricional.
 * Experiencia de usuario:
