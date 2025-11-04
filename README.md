@@ -58,23 +58,23 @@ La muestra estuvo conformada por 41 personas, principalmente de entre 18 y 45 a�
 
 * Los resultados principales de la encuesta fueron los siguientes:
 - La mayoría de los encuestados tienen entre 18 –25 años. 
-![ MyFitnessPal](![alt text](image.png))
+![ ](![alt text](image-4.png))
 - Las funciones que más desean los usuarios en la app fueron las recetas saludables con un 34.1% y recordatorios con un 26.8% de votos.
-![ MyFitnessPal](![alt text](image.png))
+![ ](![alt text](image-5.png))
 - Los usuarios sugieren que la app hiciera recomendaciones según sus metas con un 90.2% de votos que sugieren que sí.
-![ MyFitnessPal](![alt text](image.png))
+![ ](![alt text](image-6.png))
 - Los usuarios sugieren que les gustaría personalizar su dieta con un porcentaje de 65%.
-![ MyFitnessPal](![alt text](image.png))
+![ ](![alt text](image-7.png))
 - Las recetas mas preferidas de los usuarios fueron las económicas con un 46.3% de votos.
-![ MyFitnessPal](![alt text](image.png))
+![](![alt text](image-8.png))
 - El objetivo de los usuarios quedo en bajar de peso y comer mas saludable con un 29.3% por cada votación.
-![ MyFitnessPal](![alt text](image.png))
+![ ](![alt text](image-9.png))
 - Lo que más motiva a los usuarios para usar nuestra app es en mejorar la salud con un 65% de votos.
-![ MyFitnessPal](![alt text](image.png))
+![ ](![alt text](image-10.png))
 - Los recordatorios que más desean recibir los usuarios es hacer ejercicio con un 34.1%, y con menos porcentaje de un 29.3% es beber agua y revisar el progreso que se llevara a cabo.
-![ MyFitnessPal](![alt text](image.png))
+![ ](![alt text](image-11.png))
 - El tiempo que le darían a nuestra app por parte de los usuarios fue diario con un 51.2% de votos.
-![ MyFitnessPal](![alt text](image.png))
+![ ](![alt text](image-12.png))
 
 # Hallazgos principales: Lo que los usuarios realmente buscan.
 A partir del análisis de los resultados obtenidos en la encuesta, se pueden identificar varios patrones claros sobre las preferencias y expectativas de los usuarios en relación con las aplicaciones nutricionales. La mayoría de los participantes se encuentra en el rango de edad de 18 a 25 años, lo que refleja un público joven interesado en mejorar sus hábitos alimenticios y cuidar su salud a través del uso de herramientas digitales.
