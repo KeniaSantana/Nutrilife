@@ -6,16 +6,24 @@
 <div class="text-center mb-5">
     <h1 class="mt-4 fw-bold text-success">¡Bienvenido a NutriLife!</h1>
     <p class="lead">Tu sitio para aprender sobre nutrición, salud y bienestar.</p>
-    <img src="https://3.bp.blogspot.com/-cUXzrOyuAp8/WfBYZs5gG4I/AAAAAAAACqg/2Uwx0Gmlj44MqW21PrTj8Helk2BXk3ptwCLcBGAs/s1600/balanzaok.gif" style="width: 300px; height: auto;">
+
+
+    <img src="https://3.bp.blogspot.com/-cUXzrOyuAp8/WfBYZs5gG4I/AAAAAAAACqg/2Uwx0Gmlj44MqW21PrTj8Helk2BXk3ptwCLcBGAs/s1600/balanzaok.gif" 
+        alt="Balanza saludable" 
+        class="img-fluid mt-3 rounded shadow"
+        style="width: 280px; height: auto;">
 </div>
 
 
-<div class="container">
+<div class="container mb-5">
     <div class="row justify-content-center">
 
+
         <div class="col-md-4 mb-4">
-            <div class="card shadow h-100">
-                <img src="https://www.elle.com/es/belleza/salud-fitness/a40371231/recetas-frias-sanas-faciles-de-hacer-verano/" class="card-img-top" alt="Recetas Saludables">
+            <div class="card shadow h-100 border-0">
+                <img src="{{ url_for('static', filename='img/recetas.avif') }}" 
+                    class="card-img-top" 
+                    alt="Recetas Saludables">
                 <div class="card-body text-center">
                     <h5 class="card-title text-danger fw-bold">Recetas Saludables</h5>
                     <p class="card-text">Descubre platillos deliciosos y nutritivos para mejorar tu alimentación.</p>
@@ -25,8 +33,10 @@
         </div>
 
         <div class="col-md-4 mb-4">
-            <div class="card shadow h-100">
-                <img src="https://www.tvazteca.com/estados-unidos/dieta-ideal-vida-larga-sana-harvard-ar" class="card-img-top" alt="Dieta Personalizada">
+            <div class="card shadow h-100 border-0">
+                <img src="{{ url_for('static', filename='img/dieta.webp') }}" 
+                    class="card-img-top" 
+                    alt="Dieta Personalizada">
                 <div class="card-body text-center">
                     <h5 class="card-title text-danger fw-bold">Tu Dieta Ideal</h5>
                     <p class="card-text">Aprende a planificar una dieta equilibrada que se adapte a tus necesidades.</p>
@@ -35,9 +45,12 @@
             </div>
         </div>
 
+
         <div class="col-md-4 mb-4">
-            <div class="card shadow h-100">
-                <img src="https://www.freepik.es/fotos-vectores-gratis/habitos-saludables" class="card-img-top" alt="Hábitos saludables">
+            <div class="card shadow h-100 border-0">
+                <img src="{{ url_for('static', filename='img/habitos.avif') }}" 
+                class="card-img-top" 
+                alt="Hábitos Saludables">
                 <div class="card-body text-center">
                     <h5 class="card-title text-danger fw-bold">Hábitos Saludables</h5>
                     <p class="card-text">Conoce la importancia del agua, el sueño y la actividad física en tu vida diaria.</p>
