@@ -1,13 +1,49 @@
-{% extends "inicio.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Iniciar sesion{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="text-center my-4">
+    <h1 class="success:    $success">NutriLife</h1>
+    </div>
 
-{% block title %}Iniciar sesion{% endblock %}
+    <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
 
-{% block content %}
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="text-center my-4">
+                <h3 class="card-title">Crear una cuenta</h3>
+                </div>
+            <div class="text-center my-4">
+            <p></p>
+            </div>
+        <hr class="my-3">
+
+    <div class="mb-3">
+                <input type="text" class="form-control" name="email" placeholder="Correo electrónico o número de teléfono" required>
+            </div>
+
+            <div class="mb-3">
+                <input type="password" class="form-control" name="password" placeholder="Contraseña nueva" required>
+            </div>
+            
+            <div class="d-grid">
+                <div class="d-flex justify-content-center">
+    <button type="submit" class="btn btn-success">Iniciar Sesion</button>
+</div>
 
 
+<div class="text-center mt-5">
+    <p></p>
+    <p>Desarrollado por <strong> Kenia Santana y Areli Ramirez</strong></p>
+</div>
+</body>
+</html>
 
 
-
-
-
-{% endblock %}
