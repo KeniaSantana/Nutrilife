@@ -6,13 +6,13 @@ app = Flask(__name__)
 def inicio():
     return render_template("inicio.html")
 
-@app.route("/formulario")
-def registro():
-    return render_template("formulario.html")
-
 @app.route("/sesion")
 def sesion():
     return render_template("sesion.html")
+
+@app.route("/formulario")
+def registro():
+    return render_template("formulario.html")
 
 @app.route("/dieta")
 def dieta():
@@ -29,6 +29,10 @@ def recetas():
 @app.route("/acerca")
 def acerca():
     return render_template("acerca.html")
+
+@app.route("/ejercicio")
+def ejercicio():
+    return render_template("ejercicio.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
