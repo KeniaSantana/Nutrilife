@@ -34,5 +34,16 @@ def acerca():
 def ejercicio():
     return render_template("ejercicio.html")
 
+
+@app.route("/analisis")
+def analisis():
+    return render_template("analisis.html")
+
+
+@app.route("/calculadora")
+def calculadora():
+    return render_template("calculadora.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True)
