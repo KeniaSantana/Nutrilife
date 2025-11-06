@@ -14,44 +14,14 @@
             background-position: center;
             min-height: 100vh;
         }
-        .overlay {
-            background-color: rgba(0, 0, 0, 0.5);
-            min-height: 100vh;
-            color: rgba(4, 117, 8, 1);
-        }
 
-        .navbar {
-            background-color: rgba(33, 145, 36, 1) !important;
-        }
-
-        .navbar .nav-link {
-            color: white !important;
-            font-weight: 500;
-        }
-
-        .navbar .nav-link:hover {
-            color: #176e17ff !important; 
-        }
-
-        .navbar .navbar-brand {
-            color: white !important;
-            font-weight: bold;
-        }
-
-        footer {
-            background-color: rgba(20, 175, 12, 0.8);
-            color: white;
-        }
-        p.lead {
-            color: white;
-        }
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg navbar-success bg-success">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{ url_for('inicio') }}">NutriLife</a>
+        <a class="navbar-brand text-light" href="{{ url_for('inicio') }}">NutriLife</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
                 data-bs-target="#navbarNav" aria-controls="navbarNav" 
                 aria-expanded="false" aria-label="Toggle navigation">
@@ -59,37 +29,37 @@
         </button>
         
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ">
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ url_for('inicio') }}">Inicio</a>
+                    <a class="nav-link active text-light" href="{{ url_for('inicio') }}">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('registro') }}">Registrarte</a>
+                    <a class="nav-link text-light" href="{{ url_for('registro') }}">Registrarte</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('sesion') }}">Iniciar sesion</a>
+                    <a class="nav-link text-light" href="{{ url_for('sesion') }}">Iniciar sesion</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('dieta') }}">Dieta</a>
+                    <a class="nav-link text-light" href="{{ url_for('dieta') }}">Dieta</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('horario') }}">Horario y Consumo de agua</a>
+                    <a class="nav-link text-light" href="{{ url_for('horario') }}">Horario y Consumo de agua</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('recetas') }}">Recetas Saludables</a>
+                    <a class="nav-link text-light" href="{{ url_for('recetas') }}">Recetas Saludables</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('ejercicio') }}">Ejercicio</a>
+                    <a class="nav-link text-light" href="{{ url_for('ejercicio') }}">Ejercicio</a>
                 </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('calculadora') }}">Calculadora</a>
+                    <a class="nav-link text-light" href="{{ url_for('calculadora') }}">Calculadora</a>
                 </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('analisis') }}">Analisis</a>
+                    <a class="nav-link text-light" href="{{ url_for('analisis') }}">Analisis</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('acerca') }}">Acerca De</a>
+                    <a class="nav-link text-light" href="{{ url_for('acerca') }}">Acerca De</a>
                 </li>
             </ul>
         </div>
@@ -101,8 +71,8 @@
     {% endblock %}
 </div>
 
-<footer class="text-center py-4">
-    <p class="mb-0">&copy; 2025 NutriLife — Hecho por: 
+<footer class="text-center py-4 navbar-success bg-success">
+    <p class="mb-0 text-light">&copy; 2025 NutriLife — Hecho por: 
         <strong>Ramírez Vela Areli y Santana Ruiz Kenia Alejandra</strong>
     </p>
 </footer>
