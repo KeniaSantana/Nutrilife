@@ -153,10 +153,52 @@ def perfil():
         )
 
 
-@app.route("/calculadora")
+@app.route('/calculadora', methods=['GET', 'POST'])
 def calculadora():
-    return render_template("calculadora.html")
+    resultado = None
 
+    if request.method == 'POST':
+        genero = request.form.get('genero')
+        peso = float(request.form.get('peso'))
+        altura = float(request.form.get('altura'))  
+        edad = int(request.form.get('edad'))
+
+        imc_valor = round(peso / (altura * altura), 1)
+
+        # Clasificación IMC
+        if imc_valor < 18:
+            clasificacion = "Bajo peso"
+            riesgo = "Riesgo bajo pero requiere vigilancia nutricional."
+        elif imc_valor < 25:
+            clasificacion = "Peso normal"
+            riesgo = "Riesgo bajo, mantener hábitos saludables."
+        elif imc_valor < 30:
+            clasificacion = "Sobrepeso"
+            riesgo = "Aumento del riesgo de enfermedades."
+        elif imc_valor < 35:
+            clasificacion = "Obesidad Grado I"
+            riesgo = "Riesgo moderado, recomendable atención médica."
+        elif imc_valor < 40:
+            clasificacion = "Obesidad Grado II"
+            riesgo = "Riesgo alto, seguimiento profesional necesario."
+        else:
+            clasificacion = "Obesidad Grado III"
+            riesgo = "Riesgo muy alto, intervención médica inmediata."
+
+        resultado = {
+            "genero": genero,
+            "edad": edad,
+            "imc": imc_valor,
+            "clasificacion": clasificacion,
+            "riesgo": riesgo
+        }
+
+    return render_template("calculadora.html", resultado=resultado)
+
+
+@app.route("/info")
+def info():
+    return render_template("info.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

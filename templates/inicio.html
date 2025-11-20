@@ -1,64 +1,97 @@
 {% extends "base.html" %}
 
-{% block title %}Inicio | NutriLife{% endblock %}
+{% block title %}Inicio{% endblock %}
 
 {% block content %}
-<div class="text-center mb-5">
-    <h1 class="mt-4 fw-bold text-success">¡Bienvenido a NutriLife!</h1>
-    <p class="lead text-light">Tu sitio para aprender sobre nutrición, salud y bienestar.</p>
 
-
-    <img src="https://3.bp.blogspot.com/-cUXzrOyuAp8/WfBYZs5gG4I/AAAAAAAACqg/2Uwx0Gmlj44MqW21PrTj8Helk2BXk3ptwCLcBGAs/s1600/balanzaok.gif" 
-        alt="Balanza saludable" 
-        class="img-fluid mt-3 rounded shadow"
-        style="width: 280px; height: auto;">
-</div>
-
-
-<div class="container mb-5">
-    <div class="row justify-content-center">
-
-
-        <div class="col-md-4 mb-4">
-            <div class="card shadow h-100 border-0">
-                <img src="{{ url_for('static', filename='img/recetas.avif') }}" 
-                    class="card-img-top" 
-                    alt="Recetas Saludables">
-                <div class="card-body text-center">
-                    <h5 class="card-title text-danger fw-bold">Recetas Saludables</h5>
-                    <p class="card-text">Descubre platillos deliciosos y nutritivos para mejorar tu alimentación.</p>
-                    <a href="{{ url_for('recetas') }}" class="btn btn-success">Ver Recetas</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 mb-4">
-            <div class="card shadow h-100 border-0">
-                <img src="{{ url_for('static', filename='img/dieta.webp') }}" 
-                    class="card-img-top" 
-                    alt="Dieta Personalizada">
-                <div class="card-body text-center">
-                    <h5 class="card-title text-danger fw-bold">Tu Dieta Ideal</h5>
-                    <p class="card-text">Aprende a planificar una dieta equilibrada que se adapte a tus necesidades.</p>
-                    <a href="{{ url_for('dieta') }}" class="btn btn-success">Ver Dieta</a>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-md-4 mb-4">
-            <div class="card shadow h-100 border-0">
-                <img src="{{ url_for('static', filename='img/habitos.avif') }}" 
-                class="card-img-top" 
-                alt="Hábitos Saludables">
-                <div class="card-body text-center">
-                    <h5 class="card-title text-danger fw-bold">Hábitos Saludables</h5>
-                    <p class="card-text">Conoce la importancia del agua, el sueño y la actividad física en tu vida diaria.</p>
-                    <a href="{{ url_for('horario') }}" class="btn btn-success">Saber Más</a>
-                </div>
-            </div>
-        </div>
-
+<header class="bg-success text-white text-center py-5">
+    <div class="container">
+        <h1 class="fw-bold">Bienvenido a NutriLife</h1>
+        <p class="lead">Información clara y confiable para una vida saludable.</p>
+        <a href="/calculadora" class="btn btn-light btn-lg">Calcula tu IMC</a>
     </div>
-</div>
+</header>
+
+<section class="py-5">
+    <div class="container">
+        <h2 class="fw-bold text-center mb-4">Temas Destacados</h2>
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h4 class="fw-bold">Nutrición</h4>
+                        <p>Aprende sobre alimentos, nutrientes y hábitos saludables.</p>
+                        <a href="/info" class="stretched-link">Explorar</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h4 class="fw-bold">Recetas</h4>
+                        <p>Encuentra comidas saludables, fáciles y deliciosas.</p>
+                        <a href="/recetas" class="stretched-link">Ver recetas</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h4 class="fw-bold">Actividad Física</h4>
+                        <p>Combina nutrición y ejercicio para mejores resultados.</p>
+                        <a href="/ejercicio" class="stretched-link">Más información</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="fw-bold text-center mb-4">Recursos</h2>
+
+        <div class="row g-4">
+
+            <div class="col-md-6">
+                <div class="p-4 bg-white shadow-sm rounded">
+                    <h4 class="fw-bold">Horario y Consumo de Agua</h4>
+                    <p>
+                        Aprende a organizar tus horarios de comida y conoce la cantidad ideal de agua 
+                        que debes consumir diariamente según tu estilo de vida.
+                    </p>
+                    <a href="/horarioC">Acceder</a>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="p-4 bg-white shadow-sm rounded">
+                    <h4 class="fw-bold">Dieta</h4>
+                    <p>
+                        Encuentra planes de alimentación equilibrados, recomendaciones nutricionales 
+                        y guías para mejorar tus hábitos alimenticios.
+                    </p>
+                    <a href="/dieta">Ver guías</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <h2 class="fw-bold text-center mb-3">¿Qué es NutriLife?</h2>
+        <p class="text-center">
+            Una plataforma diseñada para ayudarte a tomar mejores decisiones sobre tu alimentación
+            y salud, con herramientas como recetas, calculadora IMC, guías nutritivas y más.
+        </p>
+    </div>
+</section>
+
 {% endblock %}

@@ -1,13 +1,76 @@
 {% extends "inicio.html" %}
 
-{% block title %}Calculadora{% endblock %}
-
 {% block content %}
 
+<div class="container mt-4">
+    <div class="card shadow-lg p-4">
+        <h3 class="text-center mb-3">Calculadora</h3>
+
+        <form method="POST">
+
+            <label class="fw-bold">Género:</label>
+            <div class="d-flex gap-4 mb-3">
+                <div>
+                    <input type="radio" name="genero" value="Femenino" required>
+                    <label>Femenino</label>
+                </div>
+                <div>
+                    <input type="radio" name="genero" value="Masculino" required>
+                    <label>Masculino</label>
+                </div>
+            </div>
+
+            <label class="fw-bold">Peso (kg):</label>
+            <input type="number" name="peso" class="form-control mb-3" placeholder="Ej. 56" required>
+
+            <label class="fw-bold">Altura (m):</label>
+            <input type="number" step="0.01" name="altura" class="form-control mb-3" placeholder="Ej. 1.54" required>
 
 
+            <label class="fw-bold">Edad:</label>
+            <input type="number" name="edad" class="form-control mb-3" placeholder="Ej. 20" required>
 
+            <button class="btn btn-success w-100 fw-bold">Calcular</button>
+        </form>
+        <div class="col-md-6 text-center d-flex align-items-center justify-content-center">
+                <img src="{{ url_for('static', filename='img/p.jpeg') }}" 
+                alt="Imagen IMC Salud"
+                class="img-fluid"
+                style="max-height: 300px;">
+            </div>
+    </div>
 
+    {% if resultado %}
+    <div class="card shadow-lg p-4 mt-4 border-success">
+        <h4 class="text-center">Resultado</h4>
+        <hr>
 
+        <p><strong>Género:</strong> {{ resultado.genero }}</p>
+        <p><strong>Edad:</strong> {{ resultado.edad }} años</p>
+        <p><strong>IMC:</strong> {{ resultado.imc }}</p>
+        <p><strong>Clasificación:</strong> {{ resultado.clasificacion }}</p>
+
+        <hr>
+
+        <h5 class="fw-bold">¿Qué significa el IMC?</h5>
+        <p>
+            El Índice de Masa Corporal (IMC) es una medida que relaciona el peso y la altura
+            para evaluar si una persona tiene un peso saludable.
+        </p>
+
+        <h5 class="fw-bold">Consecuencias:</h5>
+        <ul>
+            <li>{{ resultado.riesgo }}</li>
+            <li>Puede afectar energía y rendimiento físico.</li>
+            <li>Puede alterar procesos metabólicos.</li>
+        </ul>
+
+        <h5 class="fw-bold">Recomendación:</h5>
+        <p>
+            Mantén hábitos saludables y acude a un profesional para una evaluación más completa.
+        </p>
+    </div>
+    {% endif %}
+</div>
 
 {% endblock %}

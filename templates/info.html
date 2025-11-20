@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}Información Nutricional | NutriLife{% endblock %}
+
+{% block content %}
+
+<div class="container p-4 bg-white rounded shadow-sm my-5">
+
+    <h2 class="fw-bold mb-4 text-center">Información sobre Nutrición</h2>
+
+    <p class="mb-4">
+        Aquí encontrarás respuestas claras y detalladas sobre los temas más importantes de nutrición.
+        Esta sección está diseñada para ayudarte a mejorar tus hábitos alimenticios y comprender mejor
+        cómo funciona tu cuerpo frente a la comida, el agua y el equilibrio en tu dieta diaria.
+    </p>
+
+    <div class="accordion" id="accordionNutricion">
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="pregunta1">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#respuesta1">
+                    ¿Cuántas veces debo comer al día?
+                </button>
+            </h2>
+            <div id="respuesta1" class="accordion-collapse collapse show" data-bs-parent="#accordionNutricion">
+                <div class="accordion-body">
+                    La cantidad ideal de comidas al día varía según tu estilo de vida, nivel de actividad
+                    y objetivos. Lo más recomendado es realizar entre <strong>3 y 5 comidas</strong> diarias.
+                    <br><br>
+                    Comer regularmente evita ayunos prolongados que pueden causar:
+                    <ul>
+                        <li>Mareos o dolores de cabeza</li>
+                        <li>Bajones de energía</li>
+                        <li>Ansiedad por comida</li>
+                        <li>Aumento de antojos</li>
+                    </ul>
+                    Lo importante es mantener horarios estables y combinar alimentos como proteínas,
+                    carbohidratos saludables y verduras.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="pregunta2">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#respuesta2">
+                    ¿Cuánta agua debo tomar al día?
+                </button>
+            </h2>
+            <div id="respuesta2" class="accordion-collapse collapse" data-bs-parent="#accordionNutricion">
+                <div class="accordion-body">
+                    La recomendación general es entre <strong>2 y 3 litros de agua</strong> al día, pero esto
+                    depende de tu peso y actividad.  
+                    <br><br>
+                    También puedes calcularlo así:
+                    <ul>
+                        <li><strong>35 ml de agua por cada kilo de peso.</strong></li>
+                    </ul>
+                    Si pesas 60 kg → 2.1 litros diarios.  
+                    <br><br>
+                    Debes beber más agua si:
+                    <ul>
+                        <li>Haces ejercicio</li>
+                        <li>Hace calor</li>
+                        <li>Consumes café o refrescos</li>
+                    </ul>
+                    Mantenerte hidratado ayuda a mejorar tu digestión, tu piel y tu energía.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="pregunta3">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#respuesta3">
+                    ¿Qué es una dieta balanceada?
+                </button>
+            </h2>
+            <div id="respuesta3" class="accordion-collapse collapse" data-bs-parent="#accordionNutricion">
+                <div class="accordion-body">
+                    Una dieta balanceada incluye todos los grupos de alimentos en cantidades adecuadas.
+                    <br><br>
+                    Una buena dieta debe contener:
+                    <ul>
+                        <li>Frutas (3 porciones al día)</li>
+                        <li>Verduras (en cada comida)</li>
+                        <li>Proteínas magras (pollo, huevo, pescado, legumbres)</li>
+                        <li>Carbohidratos integrales (arroz integral, avena, tortillas de maíz)</li>
+                        <li>Grasas saludables (aguacate, aceite de oliva, semillas)</li>
+                    </ul>
+                    Seguir estos principios ayuda a mejorar tu energía, tu digestión y tu sistema inmunológico.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="pregunta4">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#respuesta4">
+                    ¿Cómo puedo empezar a comer más saludable?
+                </button>
+            </h2>
+            <div id="respuesta4" class="accordion-collapse collapse" data-bs-parent="#accordionNutricion">
+                <div class="accordion-body">
+                    Para mejorar tus hábitos no necesitas hacerlo todo de golpe.  
+                    Comienza con estos pasos simples:
+                    <ul>
+                        <li>Elimina refrescos y reduce azúcares.</li>
+                        <li>Escoge frutas o nueces como colación.</li>
+                        <li>Agrega más verduras a tus comidas.</li>
+                        <li>Evita alimentos fritos y ultraprocesados.</li>
+                        <li>Prepara tus alimentos en casa cuando sea posible.</li>
+                    </ul>
+                    Pequeños cambios pueden mejorar tu salud en pocas semanas.
+                </div>
+            </div>
+        </div>
+
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="pregunta5">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#respuesta5">
+                    ¿Qué alimentos debo evitar o limitar?
+                </button>
+            </h2>
+            <div id="respuesta5" class="accordion-collapse collapse" data-bs-parent="#accordionNutricion">
+                <div class="accordion-body">
+                    No es necesario eliminar alimentos por completo, pero sí es importante limitar:
+                    <ul>
+                        <li>Refrescos o jugos con azúcar</li>
+                        <li>Botanas fritas o muy saladas</li>
+                        <li>Comida rápida procesada</li>
+                        <li>Dulces, pan dulce y galletas industriales</li>
+                        <li>Embutidos y carnes muy procesadas</li>
+                    </ul>
+                    Consumir estos alimentos regularmente puede afectar tu salud, peso y energía.
+                    Lo ideal es consumirlos solo ocasionalmente.
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
