@@ -1,13 +1,54 @@
 {% extends "inicio.html" %}
 
-{% block title %}Dieta{% endblock %}
+{% block title %}Dieta Personalizada{% endblock %}
 
 {% block content %}
 
+<h1>Dieta Personalizada</h1>
 
+<div class="dieta-container">
 
+    
+    <div class="datos-usuario">
+        <h2>Tus Datos</h2>
+        <p><strong>Peso:</strong> {{ peso }} kg</p>
+        <p><strong>Altura:</strong> {{ altura }} cm</p>
+        <p><strong>Objetivo:</strong> {{ objetivo }}</p>
+    </div>
 
+    
+    <div class="plan-dieta">
+        <h2>Comidas del Día</h2>
 
+        <div class="comida">
+            <h3>Desayuno</h3>
+            <p>{{ desayuno }}</p>
+            <p><strong>Hora:</strong> {{ hora_desayuno }}</p>
+        </div>
 
+        <div class="comida">
+            <h3>Comida</h3>
+            <p>{{ comida }}</p>
+            <p><strong>Hora:</strong> {{ hora_comida }}</p>
+        </div>
+
+        <div class="comida">
+            <h3>Cena</h3>
+            <p>{{ cena }}</p>
+            <p><strong>Hora:</strong> {{ hora_cena }}</p>
+        </div>
+
+        <div class="comida">
+            <h3>Snacks / Colaciones</h3>
+            <p>{{ snack }}</p>
+        </div>
+    </div>
+
+    
+    <form action="/actualizar_dieta" method="POST">
+        <button type="submit">Actualizar Dieta</button>
+    </form>
+
+</div>
 
 {% endblock %}

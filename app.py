@@ -51,9 +51,52 @@ def registro():
     return render_template("formulario.html")
 
 
-@app.route("/dieta")
+@app.route("/dieta", methods=["GET", "POST"])
 def dieta():
-    return render_template("dieta.html")
+
+    peso = 60
+    altura = 165
+    objetivo = "Bajar de peso"
+
+    if objetivo == "Bajar de peso":
+        desayuno = "Avena con fruta y nueces"
+        comida = "Pollo a la plancha con verduras"
+        cena = "Ensalada ligera con proteína"
+        snack = "Yogurt griego o una manzana"
+    elif objetivo == "Subir masa muscular":
+        desayuno = "Huevos con avena y plátano"
+        comida = "Carne magra con arroz y verduras"
+        cena = "Atún con tortillas de maíz"
+        snack = "Licenciado de proteína o frutos secos"
+    else:  
+        desayuno = "Pan integral con huevo"
+        comida = "Pechuga con pasta integral"
+        cena = "Sándwich integral con jamón de pavo"
+        snack = "Fruta o yogurt"
+
+    
+    hora_desayuno = "8:00 AM"
+    hora_comida = "2:00 PM"
+    hora_cena = "8:00 PM"
+
+    return render_template(
+        "dieta.html",
+        peso=peso,
+        altura=altura,
+        objetivo=objetivo,
+        desayuno=desayuno,
+        comida=comida,
+        cena=cena,
+        snack=snack,
+        hora_desayuno=hora_desayuno,
+        hora_comida=hora_comida,
+        hora_cena=hora_cena
+    )
+
+@app.route("/")
+def inicio():
+    return "<h1>Inicio funcionando ✔</h1><p>Ve a /dieta para ver la dieta</p>"
+
 
 
 @app.route("/horarioC", methods=["GET", "POST"])
