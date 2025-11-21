@@ -97,9 +97,7 @@ def dieta():
         hora_cena=hora_cena
     )
 
-@app.route("/")
-def inicio():
-    return "<h1>Inicio funcionando ✔</h1><p>Ve a /dieta para ver la dieta</p>"
+
 
 
 
