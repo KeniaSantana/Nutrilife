@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Lobby{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column justify-content-center align-items-center text-center text-light" style="min-height: 80vh;">
+    <div class="bg-dark bg-opacity-75 p-5 rounded-4 shadow-lg">
+        <h1 class="fw-bold mb-3">¡Bienvenido a Nutrilife!</h1>
+
+        <p class="lead">
+            Explora información esencial sobre cómo llevar una alimentación saludable:
+            recetas, calculadoras, horarios de comida, consumo de agua y más.
+        </p>
+
+        <p>Antes de continuar, por favor accede o regístrate.</p>
+
+        <div class="row justify-content-center my-4">
+            <div class="col-md-5 mb-3">
+                <img src="https://1.bp.blogspot.com/-esxdsw5oqxU/YU_f-uTZBAI/AAAAAAAAAtk/7wpFdNp0ATM9wdX6nusIFhGuyiIkXxr9gCLcBGAsYHQ/s320/giphy.gif"
+                    class="img-fluid rounded shadow-lg"
+                    alt="GIF"
+                    style="width: 100%; max-width: 300px; height: 200px; object-fit: cover;">
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a href="{{ url_for('formulario') }}" class="btn btn-warning btn-lg px-4 me-2">
+                Registrarse
+            </a>
+            <a href="{{ url_for('sesion') }}" class="btn btn-outline-light btn-lg px-4">
+                Iniciar Sesión
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

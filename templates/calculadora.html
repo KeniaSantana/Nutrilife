@@ -3,74 +3,217 @@
 {% block content %}
 
 <div class="container mt-4">
-    <div class="card shadow-lg p-4">
-        <h3 class="text-center mb-3">Calculadora</h3>
 
-        <form method="POST">
+    <h2 class="text-center fw-bold mb-4">Módulo de Herramientas NutrlLife</h2>
 
-            <label class="fw-bold">Género:</label>
-            <div class="d-flex gap-4 mb-3">
-                <div>
-                    <input type="radio" name="genero" value="Femenino" required>
-                    <label>Femenino</label>
-                </div>
-                <div>
-                    <input type="radio" name="genero" value="Masculino" required>
-                    <label>Masculino</label>
+    <div class="accordion" id="herramientas">
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#imc">
+                    Calculadora de IMC
+                </button>
+            </h2>
+            <div id="imc" class="accordion-collapse collapse show" data-bs-parent="#herramientas">
+                <div class="accordion-body">
+
+                    <form method="POST" action="/calculadora?tipo=imc">
+
+                        <label class="fw-bold">Género:</label>
+                        <div class="d-flex gap-4 mb-3">
+                            <label><input type="radio" name="genero" value="Femenino" required> Femenino</label>
+                            <label><input type="radio" name="genero" value="Masculino" required> Masculino</label>
+                        </div>
+
+                        <label class="fw-bold">Peso (kg):</label>
+                        <input type="number" name="peso" class="form-control mb-3" step="0.1" required>
+
+                        <label class="fw-bold">Altura (m):</label>
+                        <input type="number" name="altura" step="0.01" class="form-control mb-3" required>
+
+                        <button class="btn btn-success w-100">Calcular IMC</button>
+                    </form>
+
+                    {% if resultado_imc %}
+                    <hr>
+                    <p><strong>IMC:</strong> {{ resultado_imc.imc }}</p>
+                    <p><strong>Clasificación:</strong> {{ resultado_imc.clasificacion }}</p>
+                    <p><strong>Riesgo:</strong> {{ resultado_imc.riesgo }}</p>
+                    {% endif %}
                 </div>
             </div>
+        </div>
 
-            <label class="fw-bold">Peso (kg):</label>
-            <input type="number" name="peso" class="form-control mb-3" placeholder="Ej. 56" required>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tmb">
+                    Calculadora de Tasa Metabólica Basal (TMB)
+                </button>
+            </h2>
+            <div id="tmb" class="accordion-collapse collapse" data-bs-parent="#herramientas">
+                <div class="accordion-body">
 
-            <label class="fw-bold">Altura (m):</label>
-            <input type="number" step="0.01" name="altura" class="form-control mb-3" placeholder="Ej. 1.54" required>
+                    <form method="POST" action="/calculadora?tipo=tmb">
 
+                        <label class="fw-bold">Género:</label>
+                        <div class="d-flex gap-4 mb-3">
+                            <label><input type="radio" name="genero" value="Femenino" required> Femenino</label>
+                            <label><input type="radio" name="genero" value="Masculino" required> Masculino</label>
+                        </div>
 
-            <label class="fw-bold">Edad:</label>
-            <input type="number" name="edad" class="form-control mb-3" placeholder="Ej. 20" required>
+                        <label class="fw-bold">Peso (kg):</label>
+                        <input type="number" name="peso" step="0.1" class="form-control mb-3" required>
 
-            <button class="btn btn-success w-100 fw-bold">Calcular</button>
-        </form>
-        <div class="col-md-6 text-center d-flex align-items-center justify-content-center">
-                <img src="{{ url_for('static', filename='img/p.jpeg') }}" 
-                alt="Imagen IMC Salud"
-                class="img-fluid"
-                style="max-height: 300px;">
+                        <label class="fw-bold">Altura (cm):</label>
+                        <input type="number" name="altura" class="form-control mb-3" required>
+
+                        <label class="fw-bold">Edad:</label>
+                        <input type="number" name="edad" class="form-control mb-3" required>
+
+                        <button class="btn btn-primary w-100">Calcular TMB</button>
+                    </form>
+
+                    {% if resultado_tmb %}
+                    <hr>
+                    <p><strong>TMB:</strong> {{ resultado_tmb.tmb }} kcal/día</p>
+                    {% endif %}
+                </div>
             </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#gct">
+                    Calculadora de Gasto Calórico Total (GCT)
+                </button>
+            </h2>
+            <div id="gct" class="accordion-collapse collapse" data-bs-parent="#herramientas">
+                <div class="accordion-body">
+
+                    <form method="POST" action="/calculadora?tipo=gct">
+
+                        <label class="fw-bold">TMB (kcal):</label>
+                        <input type="number" name="tmb" step="0.1" class="form-control mb-3" required>
+
+                        <label class="fw-bold">Nivel de Actividad:</label>
+                        <select name="actividad" class="form-control mb-3">
+                            <option value="1.2">Sedentario</option>
+                            <option value="1.375">Ligero</option>
+                            <option value="1.55">Moderado</option>
+                            <option value="1.725">Intenso</option>
+                            <option value="1.9">Muy intenso</option>
+                        </select>
+
+                        <button class="btn btn-warning w-100">Calcular Gasto Total</button>
+                    </form>
+
+                    {% if resultado_gct %}
+                    <hr>
+                    <p><strong>Gasto Calórico Total:</strong> {{ resultado_gct.gct }} kcal/día</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pesoideal">
+                    Calculadora de Peso Ideal
+                </button>
+            </h2>
+            <div id="pesoideal" class="accordion-collapse collapse" data-bs-parent="#herramientas">
+                <div class="accordion-body">
+
+                    <form method="POST" action="/calculadora?tipo=pesoideal">
+
+                        <label class="fw-bold">Altura (cm):</label>
+                        <input type="number" name="altura" class="form-control mb-3" required>
+
+                        <button class="btn btn-dark w-100">Calcular Peso Ideal</button>
+                    </form>
+
+                    {% if resultado_pi %}
+                    <hr>
+                    <p><strong>Peso Ideal:</strong> {{ resultado_pi.peso }} kg</p>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#macros">
+                    Calculadora de Macronutrientes
+                </button>
+            </h2>
+            <div id="macros" class="accordion-collapse collapse" data-bs-parent="#herramientas">
+                <div class="accordion-body">
+
+                    <form method="POST" action="/calculadora?tipo=macros">
+
+                        <label class="fw-bold">Calorías diarias (kcal):</label>
+                        <input type="number" name="calorias" class="form-control mb-3" required>
+
+                        <label class="fw-bold">Objetivo:</label>
+                        <select name="objetivo" class="form-control mb-3">
+                            <option value="perdida">Pérdida de peso</option>
+                            <option value="mantenimiento">Mantenimiento</option>
+                            <option value="ganancia">Ganancia muscular</option>
+                        </select>
+
+                        <button class="btn btn-info w-100">Calcular Macronutrientes</button>
+                    </form>
+
+                    {% if resultado_macros %}
+                    <hr>
+                    <p><strong>Proteína:</strong> {{ resultado_macros.proteina }} g</p>
+                    <p><strong>Grasas:</strong> {{ resultado_macros.grasas }} g</p>
+                    <p><strong>Carbohidratos:</strong> {{ resultado_macros.carbs }} g</p>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+<div class="accordion-item">
+    <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#analizador">
+            Analizador de Recetas o Platos
+        </button>
+    </h2>
+    <div id="analizador" class="accordion-collapse collapse" data-bs-parent="#herramientas">
+        <div class="accordion-body">
+
+            <p class="text-muted">
+                Escribe tu receta enlistando ingredientes y cantidades.  
+                Ejemplo:<br>
+                <em>100g arroz<br>1 huevo<br>50g pollo</em>
+            </p>
+
+            <form method="POST" action="/calculadora?tipo=receta">
+                <label class="fw-bold">Ingredientes:</label>
+                <textarea name="ingredientes" rows="5" class="form-control mb-3" required></textarea>
+
+                <button class="btn btn-secondary w-100">Analizar Receta</button>
+            </form>
+
+            {% if resultado_receta %}
+            <hr>
+            <h5 class="fw-bold">Resultados Totales:</h5>
+            <p><strong>Calorías:</strong> {{ resultado_receta.calorias }} kcal</p>
+            <p><strong>Proteína:</strong> {{ resultado_receta.proteina }} g</p>
+            <p><strong>Grasas:</strong> {{ resultado_receta.grasas }} g</p>
+            <p><strong>Carbohidratos:</strong> {{ resultado_receta.carbs }} g</p>
+            {% endif %}
+
+        </div>
     </div>
+</div>
 
-    {% if resultado %}
-    <div class="card shadow-lg p-4 mt-4 border-success">
-        <h4 class="text-center">Resultado</h4>
-        <hr>
 
-        <p><strong>Género:</strong> {{ resultado.genero }}</p>
-        <p><strong>Edad:</strong> {{ resultado.edad }} años</p>
-        <p><strong>IMC:</strong> {{ resultado.imc }}</p>
-        <p><strong>Clasificación:</strong> {{ resultado.clasificacion }}</p>
-
-        <hr>
-
-        <h5 class="fw-bold">¿Qué significa el IMC?</h5>
-        <p>
-            El Índice de Masa Corporal (IMC) es una medida que relaciona el peso y la altura
-            para evaluar si una persona tiene un peso saludable.
-        </p>
-
-        <h5 class="fw-bold">Consecuencias:</h5>
-        <ul>
-            <li>{{ resultado.riesgo }}</li>
-            <li>Puede afectar energía y rendimiento físico.</li>
-            <li>Puede alterar procesos metabólicos.</li>
-        </ul>
-
-        <h5 class="fw-bold">Recomendación:</h5>
-        <p>
-            Mantén hábitos saludables y acude a un profesional para una evaluación más completa.
-        </p>
     </div>
-    {% endif %}
 </div>
 
 {% endblock %}
+

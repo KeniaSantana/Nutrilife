@@ -4,6 +4,10 @@ app = Flask(__name__)
 
 
 @app.route("/")
+def lobby():
+    return render_template("lobby.html")
+
+@app.route("/inicio")
 def inicio():
     return render_template("inicio.html")
 
@@ -24,7 +28,7 @@ def sesion():
 
 
 @app.route("/formulario", methods=["GET", "POST"])
-def registro():
+def formulario():
     if request.method == "POST":
         nombre = request.form.get("nombre")
         apellido = request.form.get("apellido")
@@ -165,7 +169,6 @@ def calculadora():
 
         imc_valor = round(peso / (altura * altura), 1)
 
-        # Clasificación IMC
         if imc_valor < 18:
             clasificacion = "Bajo peso"
             riesgo = "Riesgo bajo pero requiere vigilancia nutricional."
