@@ -12,6 +12,14 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-success bg-success">
+            <a class="navbar-brand" href="/">
+            <img src="{{ url_for('static', filename='img/nutrilife.jpg') }}" 
+                alt="Logo" 
+                width="40" 
+                height="40" 
+                class="d-inline-block align-text-top">
+            
+        </a>
     <div class="container-fluid">
 
         <a class="navbar-brand text-light" href="{{ url_for('lobby') }}">NutriLife</a>
@@ -27,7 +35,7 @@
             <ul class="navbar-nav ms-auto">
 
 
-                {% if not session.get('logout') %}
+                {% if not session.get('usuario') or request.endpoint == 'lobby' %}
                     <li class="nav-item">
                         <a class="nav-link text-light" href="{{ url_for('formulario') }}">Regístrate</a>
                     </li>
@@ -36,28 +44,25 @@
                     </li>
                 {% else %}
 
-                    <li class="nav-item">
-                        <span class="nav-link text-light">Bienvenido {{ session.get('usuario') }}</span>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="{{ url_for('logout') }}">Cerrar sesión</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('inicio') }}">Inicio</a></li>
+    <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('info') }}">Información</a></li>
+    <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('dieta') }}">Dieta</a></li>
+    <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('horario') }}">Horario y Consumo de agua</a></li>
+    <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('recetas') }}">Recetas Saludables</a></li>
+    <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('ejercicio') }}">Ejercicio</a></li>
+    <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('calculadora') }}">Calculadora</a></li>
+    <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('perfil') }}">Perfil</a></li>
+    <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('acerca') }}">Acerca De</a></li>
+
+    <li class="nav-item">
+        <span class="nav-link text-light">Bienvenido {{ session.get('usuario') }}</span>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-light" href="{{ url_for('logout') }}">Cerrar sesión</a>
+    </li>
                 {% endif %}
 
-                <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('lobby') }}">Lobby</a></li>
-                <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('inicio') }}">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('formulario') }}">Registrarte</a></li>
-                <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('sesion') }}">Iniciar sesión</a></li>
-
-                <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('info') }}">Información</a></li>
-                <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('dieta') }}">Dieta</a></li>
-                <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('horario') }}">Horario y Consumo de agua</a></li>
-                <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('recetas') }}">Recetas Saludables</a></li>
-                <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('ejercicio') }}">Ejercicio</a></li>
-                <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('calculadora') }}">Calculadora</a></li>
-                <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('perfil') }}">Perfil</a></li>
-                <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('acerca') }}">Acerca De</a></li>
-
+                
             </ul>
         </div>
     </div>

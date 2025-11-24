@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
-
+app.secret_key = "X6bcYYVWiKi2VhDRFij4dErDszBeJVsWRe0YFvG9"
 
 @app.route("/")
 def lobby():
@@ -9,7 +9,8 @@ def lobby():
 
 @app.route("/inicio")
 def inicio():
-    
+    if not session.get("usuario"):
+        return redirect(url_for("sesion"))
     return render_template("inicio.html")
 
 
@@ -20,12 +21,16 @@ def sesion():
         password = request.form.get("password")
 
         if email and password:
+            session["usuario"] = email
             print(f"Inicio de sesión de: {email}")
             return redirect(url_for("inicio"))
         else:
             return render_template("sesion.html", error="Datos incorrectos")
 
     return render_template("sesion.html")
+
+
+
 
 
 @app.route("/formulario", methods=["GET", "POST"])
@@ -156,6 +161,7 @@ def ejercicio():
 @app.route("/perfil", methods=["GET", "POST"])
 def perfil():
     if request.method == "POST":
+        
         nombre = request.form.get("nombre", "")
         apellido = request.form.get("apellido", "")
         email = request.form.get("email", "")
@@ -168,6 +174,8 @@ def perfil():
         dietas = request.form.get("dietas", "")
         no_gustan = request.form.get("no_gustan", "")
 
+        session["usuario"] = email
+        
         return render_template(
             "perfil.html",
             nombre=nombre,
@@ -244,6 +252,11 @@ def calculadora():
 @app.route("/info")
 def info():
     return render_template("info.html")
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("lobby"))
 
 if __name__ == "__main__":
     app.run(debug=True)
