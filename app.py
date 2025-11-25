@@ -10,14 +10,39 @@ app.secret_key = "X6bcYYVWiKi2VhDRFij4dErDszBeJVsWRe0YFvG9"
 app.config['MYSQL_HOST']='localhost'
 app.config['MYSQL_USER']='root'
 app.config['MYSQL_PASSWORD']=''
-app.config['MYSQL_DB']='prueba'
+app.config['MYSQL_DB']='Registro'
 
 mysql=MySQL(app)
 
 def crear_tabla():
+    cursor=mysql.connection.cursor()
+    cursor.execute('''
+                    ceeate table if not exists usuarios (
+                        id int auto_increment primary key , 
+                        Nombre varchar(100) not null
+                        Apellido varchar(100) not null
+                        Email varchar(100) not null
+                        Password varchar(255) not null
+                        Genero varchar (100) not null
+                        Experiencia varchar (100) not null
+                        Objeptivo varchar (100) not null
+                        Alergias varchar (100) not null
+                        Intolrerancias varchar (100) not null
+                        Dieta varchar (100) not null
+                        no_me_gusta varchar(100) not null
+                    )
+                    
+                    ''')
     
+    def registrar_usuario(nombre,email,password):
+        hashed_password=generate_password_hash(password)
+        cursor.execute('''
+                        insert into users(nombre,email,password)
+                        values (%s,%s,%s)
+                        ''', (nombre,email, hashed_password))
 
-
+mysql.connection.commit()
+return True, "Usuario registrado correctamente"
 
 
 @app.route("/")
