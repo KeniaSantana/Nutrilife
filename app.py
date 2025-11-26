@@ -1,11 +1,78 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask_mysqldb import MySQL
+import MySQLdb
+
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.secret_key = "X6bcYYVWiKi2VhDRFij4dErDszBeJVsWRe0YFvG9"
+app.secret_key = "X6bcYYVWiKi2YFvG9dErDszBeJVsWRe0YFv"
+
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'registro'
+
+mysql = MySQL(app)
+
+
+
+def crear_tabla():
+    with app.app_context():
+        cursor = mysql.connection.cursor()
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS usuarios(
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                nombre VARCHAR(100),
+                correo VARCHAR(100),
+                contraseña VARCHAR(100)
+            )
+        ''')
+        mysql.connection.commit()
+        cursor.close()
+
+
+
+def email_existe(email):
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("SELECT * FROM usuarios WHERE email = %s", (email,))
+    data = cursor.fetchone()
+    cursor.close()
+    return data is not None
+
+
+
+def registrar_usuario(datos):
+    try:
+        cursor = mysql.connection.cursor()
+        sql = """
+            INSERT INTO usuarios 
+            (nombre, apellido, email, password, genero, experiencia, objetivo, alergias, intolerancias, dieta, no_gusta)
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+        """
+        cursor.execute(sql, datos)
+        mysql.connection.commit()
+        cursor.close()
+        return True
+    except Exception as e:
+        print("ERROR AL REGISTRAR:", e)
+        return False
+
+
+
+@app.route('/usuarios')
+def obtener_usuarios():
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("SELECT * FROM usuarios")
+    data = cursor.fetchall()
+    cursor.close()
+    return jsonify(data)
+
+
 
 @app.route("/")
 def lobby():
     return render_template("lobby.html")
+
 
 @app.route("/inicio")
 def inicio():
@@ -13,52 +80,63 @@ def inicio():
         return redirect(url_for("sesion"))
     return render_template("inicio.html")
 
-
 @app.route("/sesion", methods=["GET", "POST"])
 def sesion():
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
 
-        if email and password:
-            session["usuario"] = email
-            print(f"Inicio de sesión de: {email}")
-            return redirect(url_for("inicio"))
-        else:
-            return render_template("sesion.html", error="Datos incorrectos")
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute("SELECT * FROM usuarios WHERE email = %s", (email,))
+        usuario = cursor.fetchone()
+        cursor.close()
+
+        if usuario and check_password_hash(usuario["password"], password):
+            session["usuario"] = usuario["email"]
+            session["nombre"] = usuario["nombre"]
+            session["apellido"] = usuario["apellido"]
+            return redirect(url_for("perfil"))
+
+        return render_template("sesion.html", error="Correo o contraseña incorrectos")
 
     return render_template("sesion.html")
-
-
 
 
 
 @app.route("/formulario", methods=["GET", "POST"])
 def formulario():
     if request.method == "POST":
+
         nombre = request.form.get("nombre")
         apellido = request.form.get("apellido")
         email = request.form.get("email")
         password = request.form.get("password")
         genero = request.form.get("genero")
         experiencia = request.form.get("experiencia")
-        objetivos = request.form.get("objetivos")
+        objetivo = request.form.get("objetivo")
         alergias = request.form.get("alergias")
         intolerancias = request.form.get("intolerancias")
-        dietas = request.form.get("dietas")
-        no_gustan = request.form.get("no_gustan")
+        dieta = request.form.get("dieta")
+        no_gusta = request.form.get("no_gusta")
 
-        print(f"Nuevo usuario registrado: {nombre} {apellido} ({email})")
-        print(f"Género: {genero}, Experiencia: {experiencia}")
-        print(f"Objetivos: {objetivos}")
-        print(f"Alergias: {alergias}")
-        print(f"Intolerancias: {intolerancias}")
-        print(f"Dietas: {dietas}")
-        print(f"No le gustan: {no_gustan}")
+        if email_existe(email):
+            return render_template("formulario.html", error="Ese email ya está registrado")
 
-        return redirect(url_for("inicio"))
+        hashed = generate_password_hash(password)
+
+        exito = registrar_usuario((
+            nombre, apellido, email, hashed, genero, experiencia,
+            objetivo, alergias, intolerancias, dieta, no_gusta
+        ))
+
+        if exito:
+            session["usuario"] = email
+            return redirect(url_for("inicio"))
+
+        return render_template("formulario.html", error="Error al registrar usuario")
 
     return render_template("formulario.html")
+
 
 
 @app.route("/dieta", methods=["GET", "POST"])
@@ -78,13 +156,12 @@ def dieta():
         comida = "Carne magra con arroz y verduras"
         cena = "Atún con tortillas de maíz"
         snack = "Licenciado de proteína o frutos secos"
-    else:  
+    else:
         desayuno = "Pan integral con huevo"
         comida = "Pechuga con pasta integral"
         cena = "Sándwich integral con jamón de pavo"
         snack = "Fruta o yogurt"
 
-    
     hora_desayuno = "8:00 AM"
     hora_comida = "2:00 PM"
     hora_cena = "8:00 PM"
@@ -102,8 +179,6 @@ def dieta():
         hora_comida=hora_comida,
         hora_cena=hora_cena
     )
-
-
 
 
 
@@ -143,6 +218,7 @@ def recetas():
     return render_template("recetas.html")
 
 
+
 @app.route("/acerca")
 def acerca():
     return render_template("acerca.html")
@@ -161,7 +237,7 @@ def ejercicio():
 @app.route("/perfil", methods=["GET", "POST"])
 def perfil():
     if request.method == "POST":
-        
+
         nombre = request.form.get("nombre", "")
         apellido = request.form.get("apellido", "")
         email = request.form.get("email", "")
@@ -175,7 +251,7 @@ def perfil():
         no_gustan = request.form.get("no_gustan", "")
 
         session["usuario"] = email
-        
+
         return render_template(
             "perfil.html",
             nombre=nombre,
@@ -206,7 +282,6 @@ def perfil():
             no_gustan=""
         )
 
-
 @app.route('/calculadora', methods=['GET', 'POST'])
 def calculadora():
     resultado = None
@@ -214,7 +289,7 @@ def calculadora():
     if request.method == 'POST':
         genero = request.form.get('genero')
         peso = float(request.form.get('peso'))
-        altura = float(request.form.get('altura'))  
+        altura = float(request.form.get('altura'))
         edad = int(request.form.get('edad'))
 
         imc_valor = round(peso / (altura * altura), 1)
@@ -249,14 +324,22 @@ def calculadora():
     return render_template("calculadora.html", resultado=resultado)
 
 
+
 @app.route("/info")
 def info():
     return render_template("info.html")
+
+
 
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for("lobby"))
 
+
+
 if __name__ == "__main__":
+    crear_tabla()
     app.run(debug=True)
+
+

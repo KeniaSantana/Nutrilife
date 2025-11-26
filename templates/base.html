@@ -53,6 +53,7 @@
     <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('calculadora') }}">Calculadora</a></li>
     <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('perfil') }}">Perfil</a></li>
     <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('acerca') }}">Acerca De</a></li>
+    <a class="nav-link text-light" href="{{ url_for('obtener_usuarios') }}">Usuarios</a></li>
 
     <li class="nav-item">
         <span class="nav-link text-light">Bienvenido {{ session.get('usuario') }}</span>
