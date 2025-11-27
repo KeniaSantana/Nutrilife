@@ -1,16 +1,17 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from flask_mysqldb import MySQL
-import MySQLdb
-
 from werkzeug.security import generate_password_hash, check_password_hash
+import MySQLdb
 
 app = Flask(__name__)
 app.secret_key = "X6bcYYVWiKi2YFvG9dErDszBeJVsWRe0YFv"
+
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'registro'
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 mysql = MySQL(app)
 
@@ -19,25 +20,34 @@ mysql = MySQL(app)
 def crear_tabla():
     with app.app_context():
         cursor = mysql.connection.cursor()
-        cursor.execute('''
+        cursor.execute("USE registro;")
+        cursor.execute("""
             CREATE TABLE IF NOT EXISTS usuarios(
                 id INT PRIMARY KEY AUTO_INCREMENT,
                 nombre VARCHAR(100),
-                correo VARCHAR(100),
-                contraseña VARCHAR(100)
+                apellido VARCHAR(100),
+                email VARCHAR(100),
+                password VARCHAR(255),
+                genero VARCHAR(20),
+                experiencia VARCHAR(50),
+                objetivo VARCHAR(100),
+                alergias VARCHAR(255),
+                intolerancias VARCHAR(255),
+                dieta VARCHAR(100),
+                no_gusta VARCHAR(255)
             )
-        ''')
+        """)
         mysql.connection.commit()
         cursor.close()
 
 
 
 def email_existe(email):
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor = mysql.connection.cursor()
     cursor.execute("SELECT * FROM usuarios WHERE email = %s", (email,))
-    data = cursor.fetchone()
+    usuario = cursor.fetchone()
     cursor.close()
-    return data is not None
+    return usuario is not None
 
 
 
@@ -61,7 +71,7 @@ def registrar_usuario(datos):
 
 @app.route('/usuarios')
 def obtener_usuarios():
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor = mysql.connection.cursor()
     cursor.execute("SELECT * FROM usuarios")
     data = cursor.fetchall()
     cursor.close()
@@ -80,26 +90,36 @@ def inicio():
         return redirect(url_for("sesion"))
     return render_template("inicio.html")
 
+
+
 @app.route("/sesion", methods=["GET", "POST"])
 def sesion():
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
 
+
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute("SELECT * FROM usuarios WHERE email = %s", (email,))
         usuario = cursor.fetchone()
         cursor.close()
 
-        if usuario and check_password_hash(usuario["password"], password):
+        if not usuario:
+            return render_template("sesion.html", error="Correo o contraseña incorrectos")
+        password_bd = usuario["password"]
+        if password_bd == password:
             session["usuario"] = usuario["email"]
             session["nombre"] = usuario["nombre"]
             session["apellido"] = usuario["apellido"]
+            
+
             return redirect(url_for("perfil"))
 
         return render_template("sesion.html", error="Correo o contraseña incorrectos")
 
     return render_template("sesion.html")
+
+
 
 
 
@@ -124,10 +144,8 @@ def formulario():
 
         hashed = generate_password_hash(password)
 
-        exito = registrar_usuario((
-            nombre, apellido, email, hashed, genero, experiencia,
-            objetivo, alergias, intolerancias, dieta, no_gusta
-        ))
+        exito = registrar_usuario((nombre, apellido, email, hashed, genero, experiencia,
+                                objetivo, alergias, intolerancias, dieta, no_gusta))
 
         if exito:
             session["usuario"] = email
@@ -137,6 +155,32 @@ def formulario():
 
     return render_template("formulario.html")
 
+
+@app.route("/perfil")
+def perfil():
+    if "usuario" not in session:
+        return redirect(url_for("sesion"))
+
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("SELECT * FROM usuarios WHERE email = %s", (session["usuario"],))
+    usuario = cursor.fetchone()
+    cursor.close()
+
+    return render_template("perfil.html", usuario=usuario)
+
+
+@app.route('/dashboard')
+def dashboard():
+    if 'usuario' not in session:
+        return redirect(url_for('sesion'))
+    return render_template("dashboard.html", usuario=session['usuario'])
+
+
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("lobby"))
 
 
 @app.route("/dieta", methods=["GET", "POST"])
@@ -218,7 +262,6 @@ def recetas():
     return render_template("recetas.html")
 
 
-
 @app.route("/acerca")
 def acerca():
     return render_template("acerca.html")
@@ -234,53 +277,6 @@ def ejercicio():
     return render_template("ejercicio.html", porcentaje=porcentaje)
 
 
-@app.route("/perfil", methods=["GET", "POST"])
-def perfil():
-    if request.method == "POST":
-
-        nombre = request.form.get("nombre", "")
-        apellido = request.form.get("apellido", "")
-        email = request.form.get("email", "")
-        password = request.form.get("password", "")
-        genero = request.form.get("genero", "")
-        experiencia = request.form.get("experiencia", "")
-        objetivos = request.form.get("objetivos", "")
-        alergias = request.form.get("alergias", "")
-        intolerancias = request.form.get("intolerancias", "")
-        dietas = request.form.get("dietas", "")
-        no_gustan = request.form.get("no_gustan", "")
-
-        session["usuario"] = email
-
-        return render_template(
-            "perfil.html",
-            nombre=nombre,
-            apellido=apellido,
-            email=email,
-            password=password,
-            genero=genero,
-            experiencia=experiencia,
-            objetivos=objetivos,
-            alergias=alergias,
-            intolerancias=intolerancias,
-            dietas=dietas,
-            no_gustan=no_gustan
-        )
-    else:
-        return render_template(
-            "perfil.html",
-            nombre="",
-            apellido="",
-            email="",
-            password="",
-            genero="",
-            experiencia="",
-            objetivos="",
-            alergias="",
-            intolerancias="",
-            dietas="",
-            no_gustan=""
-        )
 
 @app.route('/calculadora', methods=['GET', 'POST'])
 def calculadora():
@@ -324,22 +320,10 @@ def calculadora():
     return render_template("calculadora.html", resultado=resultado)
 
 
-
 @app.route("/info")
 def info():
     return render_template("info.html")
 
-
-
-@app.route("/logout")
-def logout():
-    session.clear()
-    return redirect(url_for("lobby"))
-
-
-
 if __name__ == "__main__":
     crear_tabla()
     app.run(debug=True)
-
-

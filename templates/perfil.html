@@ -4,25 +4,19 @@
 
 {% block content %}
 
-<h1>Perfil de Usuario</h1>
+<h2>Mi Perfil</h2>
 
-    <hr>
+<p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
+<p><strong>Apellido:</strong> {{ usuario.apellido }}</p>
+<p><strong>Email:</strong> {{ usuario.email }}</p>
+<p><strong>Género:</strong> {{ usuario.genero }}</p>
+<p><strong>Experiencia:</strong> {{ usuario.experiencia }}</p>
+<p><strong>Objetivo:</strong> {{ usuario.objetivo }}</p>
+<p><strong>Alergias:</strong> {{ usuario.alergias }}</p>
+<p><strong>Intolerancias:</strong> {{ usuario.intolerancias }}</p>
+<p><strong>Dieta:</strong> {{ usuario.dieta }}</p>
+<p><strong>No le gusta:</strong> {{ usuario.no_gusta }}</p>
 
-    <h2>Información Personal</h2>
-    <p> <strong> Nombre  </strong> {{nombre }}</p>
-    <p> <strong> Apellido </strong> {{apellido}}</p>
-    <p> <strong> email </strong> {{email}}</p>
-    <p> <strong> Password </strong> {{password}}</p>
-    <p> <strong> Genero </strong> {{genero}}</p>
-    <p> <strong> Experiencia </strong> {{experiencia}}</p>
-    <p> <strong> Objetivos  </strong> {{objetivos}}</p>
-    <p> <strong> Alergias   </strong> {{alergias}}</p>
-    <p> <strong> Intolerancias  </strong> {{intolerancias}}</p>
-    <p> <strong> Dietas  </strong> {{dietas}}</p>
-    <p> <strong> No me gusta  </strong> {{no_gustan}}</p>
-    
-
-    <hr>
 
 <a href="/formulario">Editar Perfil </a>
 
