@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from flask_mysqldb import MySQL
-from werkzeug.security import generate_password_hash, check_password_hash
 import MySQLdb
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.secret_key = "X6bcYYVWiKi2YFvG9dErDszBeJVsWRe0YFv"
@@ -71,9 +71,9 @@ def registrar_usuario(datos):
 
 @app.route('/usuarios')
 def obtener_usuarios():
-    cursor = mysql.connection.cursor()
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)  # Cursor tipo diccionario
     cursor.execute("SELECT * FROM usuarios")
-    data = cursor.fetchall()
+    data = cursor.fetchall()  
     cursor.close()
     return jsonify(data)
 
@@ -257,14 +257,17 @@ def horario():
     )
 
 
-@app.route("/recetas")
-def recetas():
-    return render_template("recetas.html")
 
+
+
+@app.route('/recetas', methods=["GET", "POST"])
+def recetas():
+        return render_template("recetas.html")
 
 @app.route("/acerca")
 def acerca():
     return render_template("acerca.html")
+
 
 
 @app.route("/ejercicio", methods=["GET", "POST"])
@@ -280,44 +283,139 @@ def ejercicio():
 
 @app.route('/calculadora', methods=['GET', 'POST'])
 def calculadora():
-    resultado = None
+    tipo = request.args.get('tipo')
+    resultado_imc = None
+    resultado_tmb = None
+    resultado_gct = None
+    resultado_pi = None
+    resultado_macros = None
+    resultado_receta = None
 
     if request.method == 'POST':
-        genero = request.form.get('genero')
-        peso = float(request.form.get('peso'))
-        altura = float(request.form.get('altura'))
-        edad = int(request.form.get('edad'))
+        # Calculadora de IMC
+        if tipo == 'imc':
+            genero = request.form.get('genero')
+            peso = float(request.form.get('peso'))
+            altura = float(request.form.get('altura'))
 
-        imc_valor = round(peso / (altura * altura), 1)
+            imc_valor = round(peso / (altura * altura), 1)
 
-        if imc_valor < 18:
-            clasificacion = "Bajo peso"
-            riesgo = "Riesgo bajo pero requiere vigilancia nutricional."
-        elif imc_valor < 25:
-            clasificacion = "Peso normal"
-            riesgo = "Riesgo bajo, mantener hábitos saludables."
-        elif imc_valor < 30:
-            clasificacion = "Sobrepeso"
-            riesgo = "Aumento del riesgo de enfermedades."
-        elif imc_valor < 35:
-            clasificacion = "Obesidad Grado I"
-            riesgo = "Riesgo moderado, recomendable atención médica."
-        elif imc_valor < 40:
-            clasificacion = "Obesidad Grado II"
-            riesgo = "Riesgo alto, seguimiento profesional necesario."
-        else:
-            clasificacion = "Obesidad Grado III"
-            riesgo = "Riesgo muy alto, intervención médica inmediata."
+            if imc_valor < 18:
+                clasificacion = "Bajo peso"
+                riesgo = "Riesgo bajo pero requiere vigilancia nutricional."
+            elif imc_valor < 25:
+                clasificacion = "Peso normal"
+                riesgo = "Riesgo bajo, mantener hábitos saludables."
+            elif imc_valor < 30:
+                clasificacion = "Sobrepeso"
+                riesgo = "Aumento del riesgo de enfermedades."
+            elif imc_valor < 35:
+                clasificacion = "Obesidad Grado I"
+                riesgo = "Riesgo moderado, recomendable atención médica."
+            elif imc_valor < 40:
+                clasificacion = "Obesidad Grado II"
+                riesgo = "Riesgo alto, seguimiento profesional necesario."
+            else:
+                clasificacion = "Obesidad Grado III"
+                riesgo = "Riesgo muy alto, intervención médica inmediata."
 
-        resultado = {
-            "genero": genero,
-            "edad": edad,
-            "imc": imc_valor,
-            "clasificacion": clasificacion,
-            "riesgo": riesgo
-        }
+            resultado_imc = {
+                "imc": imc_valor,
+                "clasificacion": clasificacion,
+                "riesgo": riesgo
+            }
 
-    return render_template("calculadora.html", resultado=resultado)
+
+        elif tipo == 'tmb':
+            genero = request.form.get('genero')
+            peso = float(request.form.get('peso'))
+            altura = float(request.form.get('altura'))
+            edad = int(request.form.get('edad'))
+
+            if genero == 'Masculino':
+                tmb_valor = round(66 + (13.7 * peso) + (5 * altura) - (6.8 * edad), 2)
+            else:
+                tmb_valor = round(655 + (9.6 * peso) + (1.8 * altura) - (4.7 * edad), 2)
+
+            resultado_tmb = {"tmb": tmb_valor}
+
+        elif tipo == 'gct':
+            tmb = float(request.form.get('tmb'))
+            actividad = float(request.form.get('actividad'))
+            gct_valor = round(tmb * actividad, 2)
+            resultado_gct = {"gct": gct_valor}
+
+
+        elif tipo == 'pesoideal':
+            altura = float(request.form.get('altura'))
+            # Fórmula de Devine (ejemplo para peso ideal en kg)
+            peso_ideal = round(50 + 0.9 * (altura - 152), 1)  # altura en cm
+            resultado_pi = {"peso": peso_ideal}
+
+
+        elif tipo == 'macros':
+            calorias = float(request.form.get('calorias'))
+            objetivo = request.form.get('objetivo')
+
+            if objetivo == 'perdida':
+                proteina = round(calorias * 0.3 / 4, 1)
+                grasas = round(calorias * 0.25 / 9, 1)
+                carbs = round(calorias * 0.45 / 4, 1)
+            elif objetivo == 'ganancia':
+                proteina = round(calorias * 0.25 / 4, 1)
+                grasas = round(calorias * 0.25 / 9, 1)
+                carbs = round(calorias * 0.5 / 4, 1)
+            else:  
+                proteina = round(calorias * 0.3 / 4, 1)
+                grasas = round(calorias * 0.3 / 9, 1)
+                carbs = round(calorias * 0.4 / 4, 1)
+
+            resultado_macros = {
+                "proteina": proteina,
+                "grasas": grasas,
+                "carbs": carbs
+            }
+
+        elif tipo == 'receta':
+            ingredientes_texto = request.form.get('ingredientes')
+
+            calorias = 0
+            proteina = 0
+            grasas = 0
+            carbs = 0
+            for linea in ingredientes_texto.splitlines():
+            
+                if 'arroz' in linea.lower():
+                    calorias += 130
+                    proteina += 2.5
+                    grasas += 0.3
+                    carbs += 28
+                elif 'huevo' in linea.lower():
+                    calorias += 70
+                    proteina += 6
+                    grasas += 5
+                    carbs += 1
+                elif 'pollo' in linea.lower():
+                    calorias += 165
+                    proteina += 31
+                    grasas += 3.6
+                    carbs += 0
+            resultado_receta = {
+                "calorias": calorias,
+                "proteina": proteina,
+                "grasas": grasas,
+                "carbs": carbs
+            }
+
+    return render_template(
+        "calculadora.html",
+        resultado_imc=resultado_imc,
+        resultado_tmb=resultado_tmb,
+        resultado_gct=resultado_gct,
+        resultado_pi=resultado_pi,
+        resultado_macros=resultado_macros,
+        resultado_receta=resultado_receta
+    )
 
 
 @app.route("/info")

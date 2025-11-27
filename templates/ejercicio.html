@@ -4,8 +4,10 @@
 
 {% block content %}
 <div class="container mt-4">
-    <div class="card shadow p-4">
-        <h2 class="text-center text-success mb-4">Progreso de Ejercicio 💪</h2>
+
+
+    <div class="card shadow p-4 mb-5">
+        <h2 class="text-center text-success mb-4">Progreso de Ejercicio </h2>
 
         <form method="POST" class="mb-4">
             <div class="row g-3 justify-content-center">
@@ -39,13 +41,32 @@
 
         <div class="text-center mt-4">
             {% if porcentaje < 50 %}
-                <p class="text-danger fw-bold">¡Vamos, tú puedes! 💪</p>
+                <p class="text-danger fw-bold">¡Vamos, tú puedes! </p>
             {% elif porcentaje < 100 %}
-                <p class="text-warning fw-bold">¡Buen avance! 🔥</p>
+                <p class="text-warning fw-bold">¡Buen avance! </p>
             {% else %}
-                <p class="text-success fw-bold">¡Excelente! Has completado tu rutina 👏</p>
+                <p class="text-success fw-bold">¡Excelente! Has completado tu rutina </p>
             {% endif %}
         </div>
     </div>
+
+    <!-- RECURSOS DESCARGABLES -->
+    <div class="card shadow p-4">
+        <h3 class="text-center text-primary mb-4">Recursos Descargables </h3>
+        <p>Planillas de ejercicios básicos para complementar tu nutrición:</p>
+        <ul>
+            <li>
+                <a href="{{ url_for('static', filename='recursos/planilla_basica.pdf') }}" download class="btn btn-outline-primary mb-2">
+                    Descargar Planilla Básica
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('static', filename='recursos/planilla_avanzada.pdf') }}" download class="btn btn-outline-primary mb-2">
+                    Descargar Planilla Avanzada
+                </a>
+            </li>
+        </ul>
+    </div>
+
 </div>
 {% endblock %}
