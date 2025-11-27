@@ -72,7 +72,7 @@ def registrar_usuario(datos):
 
 @app.route('/usuarios')
 def obtener_usuarios():
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)  # Cursor tipo diccionario
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)  
     cursor.execute("SELECT * FROM usuarios")
     data = cursor.fetchall()  
     cursor.close()
