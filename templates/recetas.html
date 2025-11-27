@@ -1,8 +1,48 @@
 {% extends "inicio.html" %}
 
-{% block title %}{% endblock %}
+{% block title %}Recetas y Alimentos{% endblock %}
 
 {% block content %}
 
+<h2 class="text-center mt-4 fw-bold">Buscar alimentos o recetas</h2>
+
+<form method="POST" class="w-50 mx-auto mt-4">
+    <input type="text" name="buscar" class="form-control" placeholder="Ejemplo: apple, rice, chicken..." required>
+    <button class="btn btn-success w-100 mt-3">Buscar</button>
+</form>
+
+<hr class="my-4">
+
+<div class="container">
+    <div class="row">
+        {% for r in resultados %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm p-3">
+
+                <h5 class="fw-bold">{{ r.nombre }}</h5>
+
+                {% if r.descripcion %}
+                    <p><strong>Descripción:</strong> {{ r.descripcion }}</p>
+                {% endif %}
+
+                {% if r.ingredientes %}
+                    <p><strong>Ingredientes:</strong> {{ r.ingredientes }}</p>
+                {% endif %}
+
+                <p><strong>Calorías:</strong> {{ r.calorias }}</p>
+                <p><strong>Proteínas:</strong> {{ r.proteinas }}</p>
+                <p><strong>Grasas:</strong> {{ r.grasas }}</p>
+                <p><strong>Carbohidratos:</strong> {{ r.carbohidratos }}</p>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if resultados|length == 0 %}
+        <p class="text-center text-danger mt-4">No se encontraron resultados.</p>
+    {% endif %}
+</div>
 
 {% endblock %}
+

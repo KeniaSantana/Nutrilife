@@ -4,51 +4,45 @@
 
 {% block content %}
 
-<h1>Dieta Personalizada</h1>
+<h2 class="mb-4 text-center">Dieta Personalizada</h2>
 
-<div class="dieta-container">
+<form action="/dieta" method="POST" class="p-4 border rounded bg-light shadow">
 
-    
-    <div class="datos-usuario">
-        <h2>Tus Datos</h2>
-        <p><strong>Peso:</strong> {{ peso }} kg</p>
-        <p><strong>Altura:</strong> {{ altura }} cm</p>
-        <p><strong>Objetivo:</strong> {{ objetivo }}</p>
+    <div class="mb-3">
+        <label>Edad:</label>
+        <input type="number" name="edad" class="form-control" required>
     </div>
 
-    
-    <div class="plan-dieta">
-        <h2>Comidas del Día</h2>
-
-        <div class="comida">
-            <h3>Desayuno</h3>
-            <p>{{ desayuno }}</p>
-            <p><strong>Hora:</strong> {{ hora_desayuno }}</p>
-        </div>
-
-        <div class="comida">
-            <h3>Comida</h3>
-            <p>{{ comida }}</p>
-            <p><strong>Hora:</strong> {{ hora_comida }}</p>
-        </div>
-
-        <div class="comida">
-            <h3>Cena</h3>
-            <p>{{ cena }}</p>
-            <p><strong>Hora:</strong> {{ hora_cena }}</p>
-        </div>
-
-        <div class="comida">
-            <h3>Snacks / Colaciones</h3>
-            <p>{{ snack }}</p>
-        </div>
+    <div class="mb-3">
+        <label>Peso (kg):</label>
+        <input type="number" name="peso" class="form-control" required>
     </div>
 
-    
-    <form action="/actualizar_dieta" method="POST">
-        <button type="submit">Actualizar Dieta</button>
-    </form>
+    <div class="mb-3">
+        <label>Altura (cm):</label>
+        <input type="number" step="0.01" name="altura" placeholder="Ej: 170" required>
+    </div>
 
-</div>
+    <div class="mb-3">
+        <label>Objetivo:</label>
+        <select name="objetivo" class="form-control" required>
+            <option value="bajar">Bajar de peso</option>
+            <option value="subir">Subir de peso</option>
+            <option value="mantener">Mantener peso</option>
+        </select>
+    </div>
+
+    <button class="btn btn-success w-100">Generar dieta</button>
+</form>
+
+{% if dieta %}
+<hr>
+<h3 class="mt-4">Tu dieta recomendada</h3>
+<ul>
+    {% for comida in dieta %}
+        <li>{{ comida }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 
 {% endblock %}

@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from flask_mysqldb import MySQL
+import requests 
 import MySQLdb
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.secret_key = "X6bcYYVWiKi2YFvG9dErDszBeJVsWRe0YFv"
+app.secret_key = "zr7gMW89PD2L3Uo4UgdCt9hMN8wGeex7WV9syxv3"
 
 
 app.config['MYSQL_HOST'] = 'localhost'
@@ -185,44 +186,51 @@ def logout():
 
 @app.route("/dieta", methods=["GET", "POST"])
 def dieta():
+    datos_usuario = None
+    dieta_generada = None
 
-    peso = 60
-    altura = 165
-    objetivo = "Bajar de peso"
+    if request.method == "POST":
+        edad = int(request.form["edad"])
+        peso = float(request.form["peso"])
+        altura = float(request.form["altura"])
+        objetivo = request.form["objetivo"]
 
-    if objetivo == "Bajar de peso":
-        desayuno = "Avena con fruta y nueces"
-        comida = "Pollo a la plancha con verduras"
-        cena = "Ensalada ligera con proteína"
-        snack = "Yogurt griego o una manzana"
-    elif objetivo == "Subir masa muscular":
-        desayuno = "Huevos con avena y plátano"
-        comida = "Carne magra con arroz y verduras"
-        cena = "Atún con tortillas de maíz"
-        snack = "Licenciado de proteína o frutos secos"
-    else:
-        desayuno = "Pan integral con huevo"
-        comida = "Pechuga con pasta integral"
-        cena = "Sándwich integral con jamón de pavo"
-        snack = "Fruta o yogurt"
+        # Guardar datos en sesión
+        session["nutri_datos"] = {
+            "edad": edad,
+            "peso": peso,
+            "altura": altura,
+            "objetivo": objetivo
+        }
 
-    hora_desayuno = "8:00 AM"
-    hora_comida = "2:00 PM"
-    hora_cena = "8:00 PM"
+        datos_usuario = session["nutri_datos"]
 
-    return render_template(
-        "dieta.html",
-        peso=peso,
-        altura=altura,
-        objetivo=objetivo,
-        desayuno=desayuno,
-        comida=comida,
-        cena=cena,
-        snack=snack,
-        hora_desayuno=hora_desayuno,
-        hora_comida=hora_comida,
-        hora_cena=hora_cena
-    )
+        # Dieta según objetivo
+        if objetivo == "bajar":
+            dieta_generada = [
+                "Desayuno: Avena con manzana",
+                "Comida: Pollo a la plancha con verduras",
+                "Cena: Ensalada verde con atún",
+                "Snack: Yogur griego"
+            ]
+        elif objetivo == "subir":
+            dieta_generada = [
+                "Desayuno: Huevos + pan integral",
+                "Comida: Pasta con carne molida",
+                "Cena: Sándwich de pavo",
+                "Snack: Almendras"
+            ]
+        else:  
+            dieta_generada = [
+                "Desayuno: Smoothie de frutas",
+                "Comida: Arroz + pollo + ensalada",
+                "Cena: Wrap de vegetales",
+                "Snack: Gelatina light"
+            ]
+
+    return render_template("dieta.html",
+                            datos=datos_usuario,
+                            dieta=dieta_generada)
 
 
 
@@ -259,10 +267,44 @@ def horario():
 
 
 
-
-@app.route('/recetas', methods=["GET", "POST"])
+@app.route("/recetas", methods=["GET", "POST"])
 def recetas():
-        return render_template("recetas.html")
+    resultados = []
+
+    if request.method == "POST":
+        busqueda = request.form.get("buscar")
+
+        url = "https://api.nal.usda.gov/fdc/v1/foods/search"
+        params = {
+            "api_key": "zr7gMW89PD2L3Uo4UgdCt9hMN8wGeex7WV9syxv3",
+            "query": busqueda,
+            "pageSize": 10
+        }
+
+        response = requests.get(url, params=params)
+
+        if response.status_code == 200:
+            data = response.json()
+            foods = data.get("foods", [])
+
+            for item in foods:
+                nutrientes = {n["nutrientName"]: n["value"] for n in item.get("foodNutrients", [])}
+
+                resultados.append({
+                    "nombre": item.get("description"),
+                    "ingredientes": item.get("ingredients"),
+                    "descripcion": item.get("additionalDescriptions"),
+                    "calorias": nutrientes.get("Energy", "N/A"),
+                    "proteinas": nutrientes.get("Protein", "N/A"),
+                    "grasas": nutrientes.get("Total lipid (fat)", "N/A"),
+                    "carbohidratos": nutrientes.get("Carbohydrate, by difference", "N/A")
+                })
+
+    return render_template("recetas.html", resultados=resultados)
+
+
+
+
 
 @app.route("/acerca")
 def acerca():
