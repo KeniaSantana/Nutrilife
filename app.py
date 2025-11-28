@@ -99,26 +99,31 @@ def sesion():
         email = request.form.get("email")
         password = request.form.get("password")
 
-
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute("SELECT * FROM usuarios WHERE email = %s", (email,))
         usuario = cursor.fetchone()
         cursor.close()
 
+
         if not usuario:
             return render_template("sesion.html", error="Correo o contraseña incorrectos")
+
+
         password_bd = usuario["password"]
-        if password_bd == password:
-            session["usuario"] = usuario["email"]
-            session["nombre"] = usuario["nombre"]
-            session["apellido"] = usuario["apellido"]
-            
 
-            return redirect(url_for("perfil"))
 
-        return render_template("sesion.html", error="Correo o contraseña incorrectos")
+        if not check_password_hash(password_bd, password):
+            return render_template("sesion.html", error="Correo o contraseña incorrectos")
+
+
+        session["usuario"] = usuario["email"]
+        session["nombre"] = usuario["nombre"]
+        session["apellido"] = usuario["apellido"]
+
+        return redirect(url_for("perfil"))
 
     return render_template("sesion.html")
+
 
 
 
@@ -195,7 +200,7 @@ def dieta():
         altura = float(request.form["altura"])
         objetivo = request.form["objetivo"]
 
-        # Guardar datos en sesión
+
         session["nutri_datos"] = {
             "edad": edad,
             "peso": peso,
@@ -205,7 +210,7 @@ def dieta():
 
         datos_usuario = session["nutri_datos"]
 
-        # Dieta según objetivo
+
         if objetivo == "bajar":
             dieta_generada = [
                 "Desayuno: Avena con manzana",
