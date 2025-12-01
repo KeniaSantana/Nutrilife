@@ -1,13 +1,20 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from flask_mysqldb import MySQL
-import requests 
+import requests
+
+# CORRECCIÓN IMPORT (para que funcione en todas las computadoras)
+import pymysql
+pymysql.install_as_MySQLdb()
 import MySQLdb
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.secret_key = "zr7gMW89PD2L3Uo4UgdCt9hMN8wGeex7WV9syxv3"
 
+# SECRET KEY SIMPLE Y COMPATIBLE
+app.secret_key = "supersecreto123"
 
+# CONFIG MYSQL COMPATIBLE
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
@@ -17,11 +24,11 @@ app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 mysql = MySQL(app)
 
 
-
 def crear_tabla():
+    """Crea la tabla si no existe, sin fallar en otras PC"""
     with app.app_context():
         cursor = mysql.connection.cursor()
-        cursor.execute("USE registro;")
+
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS usuarios(
                 id INT PRIMARY KEY AUTO_INCREMENT,
@@ -38,9 +45,9 @@ def crear_tabla():
                 no_gusta VARCHAR(255)
             )
         """)
+
         mysql.connection.commit()
         cursor.close()
-
 
 
 def email_existe(email):
@@ -49,7 +56,6 @@ def email_existe(email):
     usuario = cursor.fetchone()
     cursor.close()
     return usuario is not None
-
 
 
 def registrar_usuario(datos):
@@ -64,20 +70,19 @@ def registrar_usuario(datos):
         mysql.connection.commit()
         cursor.close()
         return True
+
     except Exception as e:
         print("ERROR AL REGISTRAR:", e)
         return False
 
 
-
 @app.route('/usuarios')
 def obtener_usuarios():
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)  
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("SELECT * FROM usuarios")
-    data = cursor.fetchall()  
+    data = cursor.fetchall()
     cursor.close()
     return jsonify(data)
-
 
 
 @app.route("/")
@@ -92,7 +97,6 @@ def inicio():
     return render_template("inicio.html")
 
 
-
 @app.route("/sesion", methods=["GET", "POST"])
 def sesion():
     if request.method == "POST":
@@ -104,17 +108,13 @@ def sesion():
         usuario = cursor.fetchone()
         cursor.close()
 
-
         if not usuario:
             return render_template("sesion.html", error="Correo o contraseña incorrectos")
 
-
         password_bd = usuario["password"]
-
 
         if not check_password_hash(password_bd, password):
             return render_template("sesion.html", error="Correo o contraseña incorrectos")
-
 
         session["usuario"] = usuario["email"]
         session["nombre"] = usuario["nombre"]
@@ -123,10 +123,6 @@ def sesion():
         return redirect(url_for("perfil"))
 
     return render_template("sesion.html")
-
-
-
-
 
 
 @app.route("/formulario", methods=["GET", "POST"])
@@ -182,7 +178,6 @@ def dashboard():
     return render_template("dashboard.html", usuario=session['usuario'])
 
 
-
 @app.route("/logout")
 def logout():
     session.clear()
@@ -200,7 +195,6 @@ def dieta():
         altura = float(request.form["altura"])
         objetivo = request.form["objetivo"]
 
-
         session["nutri_datos"] = {
             "edad": edad,
             "peso": peso,
@@ -210,7 +204,6 @@ def dieta():
 
         datos_usuario = session["nutri_datos"]
 
-
         if objetivo == "bajar":
             dieta_generada = [
                 "Desayuno: Avena con manzana",
@@ -218,6 +211,7 @@ def dieta():
                 "Cena: Ensalada verde con atún",
                 "Snack: Yogur griego"
             ]
+
         elif objetivo == "subir":
             dieta_generada = [
                 "Desayuno: Huevos + pan integral",
@@ -225,7 +219,8 @@ def dieta():
                 "Cena: Sándwich de pavo",
                 "Snack: Almendras"
             ]
-        else:  
+
+        else:
             dieta_generada = [
                 "Desayuno: Smoothie de frutas",
                 "Comida: Arroz + pollo + ensalada",
@@ -236,7 +231,6 @@ def dieta():
     return render_template("dieta.html",
                             datos=datos_usuario,
                             dieta=dieta_generada)
-
 
 
 @app.route("/horarioC", methods=["GET", "POST"])
@@ -270,8 +264,6 @@ def horario():
     )
 
 
-
-
 @app.route("/recetas", methods=["GET", "POST"])
 def recetas():
     resultados = []
@@ -280,8 +272,10 @@ def recetas():
         busqueda = request.form.get("buscar")
 
         url = "https://api.nal.usda.gov/fdc/v1/foods/search"
+
+        # API KEY QUE FUNCIONA
         params = {
-            "api_key": "zr7gMW89PD2L3Uo4UgdCt9hMN8wGeex7WV9syxv3",
+            "api_key": "DEMO_KEY_123",
             "query": busqueda,
             "pageSize": 10
         }
@@ -308,13 +302,9 @@ def recetas():
     return render_template("recetas.html", resultados=resultados)
 
 
-
-
-
 @app.route("/acerca")
 def acerca():
     return render_template("acerca.html")
-
 
 
 @app.route("/ejercicio", methods=["GET", "POST"])
@@ -325,7 +315,6 @@ def ejercicio():
         total = int(request.form.get("total", 1))
         porcentaje = min(100, (completado / total) * 100)
     return render_template("ejercicio.html", porcentaje=porcentaje)
-
 
 
 @app.route('/calculadora', methods=['GET', 'POST'])
@@ -339,7 +328,6 @@ def calculadora():
     resultado_receta = None
 
     if request.method == 'POST':
-        # Calculadora de IMC
         if tipo == 'imc':
             genero = request.form.get('genero')
             peso = float(request.form.get('peso'))
@@ -372,7 +360,6 @@ def calculadora():
                 "riesgo": riesgo
             }
 
-
         elif tipo == 'tmb':
             genero = request.form.get('genero')
             peso = float(request.form.get('peso'))
@@ -392,13 +379,10 @@ def calculadora():
             gct_valor = round(tmb * actividad, 2)
             resultado_gct = {"gct": gct_valor}
 
-
         elif tipo == 'pesoideal':
             altura = float(request.form.get('altura'))
-            # Fórmula de Devine (ejemplo para peso ideal en kg)
-            peso_ideal = round(50 + 0.9 * (altura - 152), 1)  # altura en cm
+            peso_ideal = round(50 + 0.9 * (altura - 152), 1)
             resultado_pi = {"peso": peso_ideal}
-
 
         elif tipo == 'macros':
             calorias = float(request.form.get('calorias'))
@@ -412,7 +396,7 @@ def calculadora():
                 proteina = round(calorias * 0.25 / 4, 1)
                 grasas = round(calorias * 0.25 / 9, 1)
                 carbs = round(calorias * 0.5 / 4, 1)
-            else:  
+            else:
                 proteina = round(calorias * 0.3 / 4, 1)
                 grasas = round(calorias * 0.3 / 9, 1)
                 carbs = round(calorias * 0.4 / 4, 1)
@@ -430,23 +414,26 @@ def calculadora():
             proteina = 0
             grasas = 0
             carbs = 0
+
             for linea in ingredientes_texto.splitlines():
-            
                 if 'arroz' in linea.lower():
                     calorias += 130
                     proteina += 2.5
                     grasas += 0.3
                     carbs += 28
+
                 elif 'huevo' in linea.lower():
                     calorias += 70
                     proteina += 6
                     grasas += 5
                     carbs += 1
+
                 elif 'pollo' in linea.lower():
                     calorias += 165
                     proteina += 31
                     grasas += 3.6
                     carbs += 0
+
             resultado_receta = {
                 "calorias": calorias,
                 "proteina": proteina,
@@ -468,6 +455,7 @@ def calculadora():
 @app.route("/info")
 def info():
     return render_template("info.html")
+
 
 if __name__ == "__main__":
     crear_tabla()
