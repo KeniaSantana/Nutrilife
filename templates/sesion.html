@@ -1,4 +1,4 @@
-{% extends "inicio.html" %}
+{% extends "base.html" %}
 {% block title %}Iniciar Sesión{% endblock %}
 
 {% block content %}
@@ -21,7 +21,7 @@
 
             <form action="/sesion" method="post">
             <div class="mb-3">
-                <input type="text" class="form-control" name="email" placeholder="Correo electrónico o teléfono" required>
+                <input type="text" class="form-control" name="email" placeholder="Correo electrónico" required>
             </div>
             <div class="mb-3">
                 <input type="password" class="form-control" name="password" placeholder="Contraseña" required>
@@ -44,3 +44,4 @@
     </div>
 </div>
 {% endblock %}
+
